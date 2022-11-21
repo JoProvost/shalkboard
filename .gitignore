@@ -1,0 +1,4 @@
+bin/*
+default.*
+.idea
+*.iml
