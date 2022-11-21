@@ -6,8 +6,8 @@ completely written in Bash 3.2 without any kind of library or framework.
 ![](demo/demo.png)
 
 ## Why?
-I was having fun parsing virtual terminal escape sequences when my son saw that I was actually drawing by clicking on
-in terminal. He asked me if it was possible to change the color. It was the first of a list of requirement that finally
+I was having fun parsing virtual terminal escape sequences when my son saw that I was actually drawing by clicking in
+the terminal. He asked me if it was possible to change the color, the first of a list of requirement that finally
 got me writing this little piece of code.
 
 And, why Bash 3.2? Simply because it is the default Bash interpreter on MacOS. It would have been easier to work with
