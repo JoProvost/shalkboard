@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-trap 'echo -e "\e[31mFailure at $0:$LINENO"; tail -n +$((LINENO-1)) $0 | sed "/^$/q;s/^/| /g" | sed "/^$/d"; echo -e "\e[0m"; exit 1' ERR
+trap 'echo -e "\033[31mFailure at $0:$LINENO"; tail -n +$((LINENO-1)) $0 | sed "/^$/q;s/^/| /g" | sed "/^$/d"; echo -e "\033[0m"; exit 1' ERR
 
 pushd "$(dirname -- "$0")" >/dev/null || exit 1
 . ./stack.sh

@@ -3,7 +3,7 @@
 TERMINAL_BLANK="$(printf ' %0.s' {1..1024})"
 
 terminal_write() {
-  local csi=$'\e['
+  local csi=$'\033['
   terminal_cursor_move "$1" "$2"
   [ -z "$4" ] || terminal_color "$4"
   echo -n "${3-}"
@@ -13,7 +13,7 @@ terminal_write() {
 }
 
 terminal_sprite() {
-  local csi=$'\e[' x="$1" y="$2" color="$3" line
+  local csi=$'\033[' x="$1" y="$2" color="$3" line
   shift; shift; shift
   [ -z "$color" ] || terminal_color "$color"
   for line; do
@@ -26,7 +26,7 @@ terminal_sprite() {
 }
 
 terminal_color() {
-  local csi=$'\e['
+  local csi=$'\033['
   case "${1-}" in
     blue) echo -n "${csi}34m" ;;
     green) echo -n "${csi}32m" ;;
@@ -39,7 +39,7 @@ terminal_color() {
 }
 
 terminal_clear() {
-  local csi=$'\e['
+  local csi=$'\033['
   if [ "$#" -ge 4 ];then
     local x=$1 y=$2 width=$3 height=$4
     for ((i=1; i <= height; i++)); do
@@ -52,21 +52,21 @@ terminal_clear() {
 }
 
 terminal_clear_right() {
-  local csi=$'\e['
+  local csi=$'\033['
   terminal_cursor_move "$1" "$2"
   echo -n "${csi}0K"
   terminal_cursor_move_bottom_right
 }
 
 terminal_clear_left() {
-  local csi=$'\e['
+  local csi=$'\033['
   terminal_cursor_move "$1" "$2"
   echo -n "${csi}1K"
   terminal_cursor_move_bottom_right
 }
 
 terminal_clear_down() {
-  local csi=$'\e[' line="$1"
+  local csi=$'\033[' line="$1"
   terminal_cursor_move 1 "$line"
   echo -n "${csi}0J"
   terminal_cursor_move_bottom_right
@@ -74,7 +74,7 @@ terminal_clear_down() {
 }
 
 terminal_clear_up() {
-  local csi=$'\e[' line="$1"
+  local csi=$'\033[' line="$1"
   terminal_cursor_move 1 "$line"
   echo -n "${csi}1J"
   terminal_cursor_move_bottom_right
@@ -82,22 +82,22 @@ terminal_clear_up() {
 }
 
 terminal_cursor_on() {
-  local csi=$'\e['
+  local csi=$'\033['
   echo -n "${csi}?25h"
 }
 
 terminal_cursor_off() {
-  local csi=$'\e['
+  local csi=$'\033['
   echo -n "${csi}?25l"
 }
 
 terminal_cursor_request_position() {
-  local csi=$'\e['
+  local csi=$'\033['
   echo -n "${csi}6n"
 }
 
 terminal_cursor_move() {
-  local csi=$'\e[' column=$1 line=$2
+  local csi=$'\033[' column=$1 line=$2
   echo -n "${csi}${line};${column}H"
 }
 
@@ -106,21 +106,21 @@ terminal_cursor_move_bottom_right() {
 }
 
 terminal_mouse_on() {
-  local csi=$'\e['
+  local csi=$'\033['
   stty -echo
   echo -n "$csi?1006h" # Enable SGR Coordinates
   echo -n "$csi?1003h" # Enable All mouse coordinates on
 }
 
 terminal_mouse_off() {
-  local csi=$'\e['
+  local csi=$'\033['
   echo -n "$csi?1006l" # Disable SGR Coordinates
   echo -n "$csi?1003l" # Disable All mouse coordinates on
   stty echo
 }
 
 terminal_read() {
-  local esc=$'\e' backspace=$(printf "\x7f")
+  local esc=$'\033' backspace=$(printf "\x7f")
 
   while IFS= read -r -s -n 1 -t 1 code; do
     if [[ "$code" == $'\r' || "$code" == $'\n' || "$code" == "" ]]; then
@@ -140,7 +140,7 @@ terminal_read() {
 }
 
 terminal_parse() {
-  local csi=$'\e['
+  local csi=$'\033['
 
   if [[ "$1" =~ ^"$csi<0;"([0-9]*)';'([0-9]*)M$ ]]; then
     on_mouse_event "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" press

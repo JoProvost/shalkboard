@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# buffer clear <x> <y> <text>
 buffer_clear() {
   _buffer=()
 }
@@ -31,6 +30,7 @@ buffer_save() {
   printf "%s\n" "${_buffer[@]}"
 }
 
+# buffer copy <top-left-x> <top-left-y> <bottom-right-x> <bottom-right-y>
 buffer_copy() {
   local start_x=$1 start_y=$2 end_x=$3 end_y=$4
   local buffer_copy_line i
